@@ -1,0 +1,140 @@
+[project]
+name = "astrodata"
+version = "0.1.0"
+description = "Package to download and process various astrodynamics datasets"
+license = "GPL-3.0-only"
+license-files = ["LICENSE.md"]
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/josephgruber/astrodata.git"
+Issues = "https://github.com/josephgruber/astrodata/issues"
+
+[dependency-groups]
+test = [
+    "pytest-asyncio>=1.1.0,<2",
+    "pytest-cov>=7.0.0,<8",
+    "pytest-mock>=3.15.0,<4",
+    "pytest-sugar>=1.0.0,<2",
+    "pytest-xdist>=3.8.0,<4",
+    "pytest>=8.4.2,<9",
+]
+
+lint = [
+    "deptry>=0.23.1,<1",
+    "ruff>=0.12.12,<1",
+]
+
+typing = [
+    "mypy>=1.17.1,<2",
+]
+
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "typing" },
+    "pre-commit>=4.3.0,<5",
+]
+
+[tool.coverage.paths]
+source = ["astrodata/"]
+
+[tool.coverage.run]
+branch = true
+disable-warnings = ["module-not-measured"]
+parallel = true
+source = ["astrodata"]
+
+[tool.coverage.report]
+exclude-lines = [
+    "if TYPE_CHECKING:",
+    "pragma: no cover",
+]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+pretty = true
+show_error_codes = true
+show_error_context = true
+show_traceback = true
+warn_return_any = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--color=yes",
+    "--cov=astrodata",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--cov-report=html",
+    "--numprocesses=auto",
+    "--verbose",
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+extend-exclude = ["__init__.py"]
+fix = true
+line-length = 120
+
+[tool.ruff.format]
+preview = true
+
+[tool.ruff.lint]
+ignore = [
+    "D107", # Docstrings should be on the class and not the __init__ method
+]
+preview = true
+select = [
+    "A", # flake8-builtins
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "D", # pydocstyle
+    "DOC", # pydoctlint
+    "DTZ", # flake8-datetimez
+    "E", # pydoctstyle error rules (equivalent of Flake8 base)
+    "F", # pyflakes specific rules (equivalent of Flake8 base)
+    "I", # isort
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib
+    "RUF", # ruff specific rules
+    "S", # flake8-bandit
+    "T20", # flake8-print
+    "TRY", # tryceratops
+    "W", # pydocstyle warning rules (equivalent of Flake8 base)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "D", # No docstrings required in test modules
+    "S101", # Asserts are ok in tests
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+ignore-var-parameters = true
+
+[tool.ruff.lint.pydoclint]
+ignore-one-line-docstrings = true
+
+[tool.uv]
+package = true
